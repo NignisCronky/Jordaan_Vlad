@@ -1,0 +1,9 @@
+5.4.0f3:2.3.0.0
+StandaloneWindows
+E:/Unity Game Engine/Editor/Data/Managed/UnityEngine.dll
+E:/Unity Game Engine/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
+E:/Unity Game Engine/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+E:/Unity Game Engine/Editor/Data/Managed/UnityEditor.dll
+E:/Unity Game Engine/Editor/Data\Managed/Mono.Cecil.dll
+E:/Unity Game Engine/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll
+E:/Unity Game Engine/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Common.dll
