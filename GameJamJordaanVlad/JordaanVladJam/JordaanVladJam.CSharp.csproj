@@ -79,6 +79,7 @@
     <Compile Include="Assets\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\Arrow_Controller.cs" />
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Elven Weapons\Readme.txt" />
