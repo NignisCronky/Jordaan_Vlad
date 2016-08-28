@@ -6,15 +6,13 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour
 {
     public float mCurrentSpeed;
-    public int mHealthMax;
-    public int mHealthCurrent;
     public int coins;
     public int CurLane;
     bool IsRoundOver = false;
 
-    public Riderss[] Riders;
-    public Chariotss[] Chariots;
-    public Horsess[] Horses;
+    public GameObject[] Riders;
+    public GameObject[] Chariots;
+    public GameObject[] Horses;
     public GameObject[] Arrows;
 
     GameObject RiderPrefab;
@@ -24,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     Riderss Rider;
     Horsess Horse;
     Chariotss Chariot;
-    ObstacleManager Map;
+    LanesSystem Map;
 
     Rigidbody Unit;
 
@@ -67,10 +65,16 @@ public class PlayerManager : MonoBehaviour
             PlayerPrefs.SetInt("HorseType", 0);
         }
 
-        Rider = Riders[PlayerPrefs.GetInt("RiderType")];
+        //Set the Prefabs
+        RiderPrefab = Riders[PlayerPrefs.GetInt("RiderType")];
+        HorsePrefab = Horses[PlayerPrefs.GetInt("HorseType")];
+        ChariotPrefab = Chariots[PlayerPrefs.GetInt("ChariotType")];
+
+        Rider = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Riderss>();
+        Chariot = ((GameObject)Instantiate(ChariotPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Chariotss>();
+        Horse = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
+
         Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
-        Horse = Horses[PlayerPrefs.GetInt("HorseType")];
-        Chariot = Chariots[PlayerPrefs.GetInt("ChariotType")];
         Rider.SetPlayer(this);
         Horse.SetPlayer(this);
         Chariot.SetPlayer(this);
@@ -89,9 +93,16 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    void ChangeLaneLeft(float time)
+    public void ChangeLaneLeft()
     {
+        if (Map.GetLaneLocation())
+        {
+            Unit.velocity = new Vector3(Unit);
+    }
+        else
+        {
 
+        }
     }
 
     public void OnLossDoThis()
