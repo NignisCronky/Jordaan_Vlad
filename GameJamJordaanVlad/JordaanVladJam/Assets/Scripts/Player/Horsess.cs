@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Horsess : MonoBehaviour {
+public class Horsess : MonoBehaviour
+{
+    PlayerManager Player;
 
     public float mAcceleration;
     public float mMaxSpeed;
@@ -26,16 +28,28 @@ public class Horsess : MonoBehaviour {
         mAnim = GetComponent<Animator>();
     }
 
-    void Crash()
+    public void Crash()
     {
-        if(mCurHorses == 0)
+        if (mCurHorses == 0)
         {
             transform.parent.GetComponent<PlayerManager>().OnLossDoThis();
         }
-        else if(mHorseType != HorseType.KronenHorse)
+        else if (mHorseType != HorseType.KronenHorse)
         {
             mCurHorses--;
             mAnim.SetTrigger("LoseHorse");
         }
     }
+
+    public void LoseHorse()
+    {
+        mMaxSpeed -= mMaxSpeedLostInCrash;
+        mAcceleration -= mAccelerationLostInCrash;
+    }
+
+    public void SetPlayer(PlayerManager _Player)
+    {
+        Player = _Player;
+    }
+
 }

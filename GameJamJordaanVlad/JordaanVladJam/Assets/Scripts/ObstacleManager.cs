@@ -40,9 +40,9 @@ public class ObstacleManager : MonoBehaviour
         while (i < 355)
         {
             temp = Randomize(0, objects.Count);
-            tir = Randomize(0, 5, tir);
+            tir = Randomize(1, 4, tir);
             Instantiate(objects[temp], new Vector3(tir, objects[temp].transform.position.y, i), objects[temp].transform.rotation);
-            i += Randomize(0, 8);
+            i += Randomize(0, 10);
         }
     }
 	

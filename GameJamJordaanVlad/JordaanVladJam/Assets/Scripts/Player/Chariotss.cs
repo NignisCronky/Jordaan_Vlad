@@ -2,11 +2,18 @@
 using System.Collections;
 
 public class Chariotss : MonoBehaviour {
+    PlayerManager Player;
+
     public float mMass;
     public float mWallSpeedLoss;
     public float mCrashSpeedLoss;
     public float mSlowResist;
     public float mMinSpeed;
+
+    public void SetPlayer(PlayerManager _Player)
+    {
+        Player = _Player;
+    }
 
     public enum ChariotType
     {
@@ -15,6 +22,5 @@ public class Chariotss : MonoBehaviour {
         WallBanger
     }
     public ChariotType mChariotType;
-
 
 }
