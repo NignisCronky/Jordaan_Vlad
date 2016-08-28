@@ -8,5 +8,9 @@ public class CrateScript : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
+        else if (other.tag.Contains("Player"))
+        {
+            other.GetComponent<PlayerManager>().Crash();
+        }
     }
 }
