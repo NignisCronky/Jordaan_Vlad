@@ -9,33 +9,56 @@ public class ObstacleManager : MonoBehaviour
     public GameObject[] obarr;
 	// Use this for initialization
 	void Start () {
-        obarr = Resources.LoadAll<GameObject>("Objects");
+        obarr = Resources.LoadAll<GameObject>("Obstacles");
         objects = obarr.ToList();
-        int i = 5;
+        int i = 5, temp = 0, tir = -1;
         //Area1
-        while (i < 160)
+        //Ends at 120
+        while (i < 115)
         {
-            Instantiate(objects[Random.Range(0, objects.Count)], new Vector3(i, 0, Random.Range(0, 5)), Quaternion.identity);
-            i += Random.Range(0, 6);
+            temp = Randomize(0, objects.Count);
+            tir = Randomize(0, 5, tir);
+            Instantiate(objects[temp], new Vector3(tir, objects[temp].transform.position.y, i), objects[temp].transform.rotation);
+            i += Randomize(0, 6);
+
         }
-        i = 165;
+        i = 125;
+        tir = -1;
         //Area2
-        while (i < 320)
+        //Ends at 240
+        while (i < 235)
         {
-            Instantiate(objects[Random.Range(0, objects.Count)], new Vector3(i, 0, Random.Range(0, 5)), Quaternion.identity);
-            i += Random.Range(0, 6);
+            temp = Randomize(0, objects.Count);
+            tir = Randomize(0, 5, tir);
+            Instantiate(objects[temp], new Vector3(tir, objects[temp].transform.position.y, i), objects[temp].transform.rotation);
+            i += Randomize(0, 6);
         }
-        i = 325;
+        i = 250;
+        tir = -1;
         //Area3
-        while (i < 480)
+        //Ends at 360
+        while (i < 355)
         {
-            Instantiate(objects[Random.Range(0, objects.Count)], new Vector3(i, 0, Random.Range(1, 4)), Quaternion.identity);
-            i += Random.Range(0, 8);
+            temp = Randomize(0, objects.Count);
+            tir = Randomize(0, 5, tir);
+            Instantiate(objects[temp], new Vector3(tir, objects[temp].transform.position.y, i), objects[temp].transform.rotation);
+            i += Randomize(0, 8);
         }
     }
 	
 	// Update is called once per frame
-	void Update () {
+	//void Update () {
 	
-	}
+	//}
+
+    public int Randomize(int fir, int sec, int tir = -1)
+    {
+        int temp;
+        while (true)
+        {
+            temp = Random.Range(fir, sec);
+            if (temp != tir)
+                return temp;
+        }
+    }
 }
