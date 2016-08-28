@@ -69,6 +69,7 @@
     <Compile Include="Assets\CrateScript.cs" />
     <Compile Include="Assets\EnemyScript.cs" />
     <Compile Include="Assets\Scripts\Arrow_Controller.cs" />
+    <Compile Include="Assets\Scripts\FunctionsForShopButtons.cs" />
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
     <Compile Include="Assets\Scripts\Player\Arrowss.cs" />
     <Compile Include="Assets\Scripts\Player\Chariotss.cs" />
