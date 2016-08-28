@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     public int mHealthCurrent;
     public int coins;
     public int CurLane;
-
+    bool IsRoundOver = false;
 
     public Riderss[] Riders;
     public Chariotss[] Chariots;
@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     Horsess Horse;
     Chariotss Chariot;
     ObstacleManager Map;
+
     Rigidbody Unit;
 
     void Start()
@@ -42,7 +43,7 @@ public class PlayerManager : MonoBehaviour
     void FixedUpdate()
     {
         //0.02 is the interval
-        if (Unit.velocity.z < Horse.mMaxSpeed)
+        if (Unit.velocity.z < Horse.mMaxSpeed && !IsRoundOver)
         {
             Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + (Horse.mAcceleration));
         }
@@ -75,7 +76,15 @@ public class PlayerManager : MonoBehaviour
 
     public void Crash()
     {
-
+        Horse.Crash();
+        if (Unit.velocity.z - Chariot.mCrashSpeedLoss < Chariot.mMinSpeed)
+        {
+            Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Chariot.mMinSpeed);
+        }
+        else
+        {
+            Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z - Chariot.mCrashSpeedLoss);
+        }
     }
 
     void ChangeLaneLeft(float time)
@@ -92,11 +101,18 @@ public class PlayerManager : MonoBehaviour
 
     public bool CanItBreakWall(float BreakingPoint)
     {
-        return (Chariot.mMass * mCurrentSpeed > BreakingPoint || Chariot.mChariotType == Chariotss.ChariotType.WallBanger);      
+        return (Chariot.mMass * mCurrentSpeed > BreakingPoint || Chariot.mChariotType == Chariotss.ChariotType.WallBanger);
     }
 
     public bool CanItBreakObstacle(Chariotss.ChariotType TypeThatBreaks)
     {
         return (TypeThatBreaks == Chariot.mChariotType);
+    }
+
+    public void Halt()
+    {
+        Unit.velocity = Vector3.zero;
+        IsRoundOver = true;
+        
     }
 }
