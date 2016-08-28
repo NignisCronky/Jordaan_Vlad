@@ -64,6 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\ObstacleManager.cs" />
+    <Compile Include="Assets\Scripts\Player\Arrowss.cs" />
+    <Compile Include="Assets\Scripts\Player\Chariotss.cs" />
+    <Compile Include="Assets\Scripts\Player\Horsess.cs" />
+    <Compile Include="Assets\Scripts\Player\Riderss.cs" />
     <Compile Include="Assets\Scripts\PlayerManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

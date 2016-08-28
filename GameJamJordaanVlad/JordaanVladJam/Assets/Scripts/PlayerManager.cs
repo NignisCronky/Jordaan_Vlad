@@ -3,44 +3,58 @@ using System.Collections;
 
 
 
-public class PlayerManager : MonoBehaviour {
+public class PlayerManager : MonoBehaviour
+{
 
     public float mCurrentSpeed;
     public int mHealthMax;
     public int mHealthCurrent;
     public int coins;
+    public int CurLane;
 
 
+    public Riderss[] Riders;
+    public Chariotss[] Chariots;
+    public Horsess[] Horses;
+    public GameObject[] Arrows;
 
-    public GameObject[] Riders;
-    public GameObject[] Chariots;
-    public GameObject[] Horses;
+    GameObject RiderPrefab;
+    GameObject HorsePrefab;
+    GameObject ChariotPrefab;
 
-    GameObject Rider;
-    GameObject Horse;
-    GameObject Chariot;
-    GameObject Map;
-    
-    
-	void Start () {
-	
-	}
+    Riderss Rider;
+    Horsess Horse;
+    Chariotss Chariot;
+    ObstacleManager Map;
+    Rigidbody Unit;
 
-	void Update () {
-	
-	}
+    void Start()
+    {
+        Unit = gameObject.GetComponent<Rigidbody>();
+        AssignOnStart();
+    }
+
+    void Update()
+    {
+        Rider.CheckForInput();
+    }
+
     void FixedUpdate()
     {
         //0.02 is the interval
+        if (Unit.velocity.z < Horse.mMaxSpeed)
+        {
+            Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + (Horse.mAcceleration));
+        }
     }
 
     void AssignOnStart()
     {
-        if(PlayerPrefs.HasKey("Coinss")==false)
+        if (PlayerPrefs.HasKey("Coinss") == false)
         {
             PlayerPrefs.SetInt("Coinss", 0);
         }
-        if(PlayerPrefs.HasKey("ChariotType")==false)
+        if (PlayerPrefs.HasKey("ChariotType") == false)
         {
             PlayerPrefs.SetInt("ChariotType", 0);
         }
@@ -54,29 +68,35 @@ public class PlayerManager : MonoBehaviour {
         }
 
         Rider = Riders[PlayerPrefs.GetInt("RiderType")];
+        Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
         Horse = Horses[PlayerPrefs.GetInt("HorseType")];
         Chariot = Chariots[PlayerPrefs.GetInt("ChariotType")];
-
     }
-    /// <summary>
-    /// This handels updating the speed buy 1/12 of the acceleration rate
-    /// </summary>
-    void SpeedUpdate()
+
+    public void Crash()
     {
 
     }
 
-    void ShootArrow()
+    void ChangeLaneLeft(float time)
     {
 
     }
 
-
-    void OnLossDoThis()
+    public void OnLossDoThis()
     {
         int temp = PlayerPrefs.GetInt("Coinss");
         temp += coins;
         PlayerPrefs.SetInt("Coinss", temp);
     }
 
+    public bool CanItBreakWall(float BreakingPoint)
+    {
+        return (Chariot.mMass * mCurrentSpeed > BreakingPoint || Chariot.mChariotType == Chariotss.ChariotType.WallBanger);      
+    }
+
+    public bool CanItBreakObstacle(Chariotss.ChariotType TypeThatBreaks)
+    {
+        return (TypeThatBreaks == Chariot.mChariotType);
+    }
 }
