@@ -2,10 +2,9 @@
 using System.Collections;
 
 
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour
 {
-
     public float mCurrentSpeed;
     public int mHealthMax;
     public int mHealthCurrent;
@@ -72,6 +71,9 @@ public class PlayerManager : MonoBehaviour
         Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
         Horse = Horses[PlayerPrefs.GetInt("HorseType")];
         Chariot = Chariots[PlayerPrefs.GetInt("ChariotType")];
+        Rider.SetPlayer(this);
+        Horse.SetPlayer(this);
+        Chariot.SetPlayer(this);
     }
 
     public void Crash()
@@ -97,6 +99,8 @@ public class PlayerManager : MonoBehaviour
         int temp = PlayerPrefs.GetInt("Coinss");
         temp += coins;
         PlayerPrefs.SetInt("Coinss", temp);
+        Rider.LoseAnimation();
+        Halt();
     }
 
     public bool CanItBreakWall(float BreakingPoint)
@@ -113,6 +117,5 @@ public class PlayerManager : MonoBehaviour
     {
         Unit.velocity = Vector3.zero;
         IsRoundOver = true;
-        
     }
 }

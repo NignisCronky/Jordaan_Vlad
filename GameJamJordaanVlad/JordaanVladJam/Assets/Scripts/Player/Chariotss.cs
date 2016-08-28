@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class Chariotss : MonoBehaviour {
     PlayerManager Player;
 
@@ -22,5 +24,4 @@ public class Chariotss : MonoBehaviour {
         WallBanger
     }
     public ChariotType mChariotType;
-
 }

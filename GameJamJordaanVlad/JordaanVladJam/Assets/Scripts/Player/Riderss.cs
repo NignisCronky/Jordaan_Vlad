@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Animator))]
 public class Riderss : MonoBehaviour {
     PlayerManager Player;
 
@@ -10,7 +12,7 @@ public class Riderss : MonoBehaviour {
     public int LanesToChange;
     public bool LaneWrap;
 
-    Animator Anim;
+    Animator mAnim;
 
     public enum RiderType
     {
@@ -32,7 +34,7 @@ public class Riderss : MonoBehaviour {
 
     void Start()
     {
-        Anim = GetComponent<Animator>();
+        mAnim = GetComponent<Animator>();
     }
 
     public void CheckForInput()
@@ -42,12 +44,12 @@ public class Riderss : MonoBehaviour {
 
     public void LoseAnimation()
     {
-        Anim.SetBool("Lose", true);
+        mAnim.SetBool("Lose", true);
     }
 
     public void RoundOver()
     {
-
+        SceneManager.LoadScene("testbench");
     }
 
     public void SetPlayer(PlayerManager _Player)
