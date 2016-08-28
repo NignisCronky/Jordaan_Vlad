@@ -72,7 +72,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ObstacleManager.cs" />
+    <Compile Include="Assets\BananaScript.cs" />
+    <Compile Include="Assets\CoinScript.cs" />
+    <Compile Include="Assets\ColumnScript.cs" />
+    <Compile Include="Assets\CrateScript.cs" />
+    <Compile Include="Assets\EnemyScript.cs" />
+    <Compile Include="Assets\Scripts\Arrow_Controller.cs" />
+    <Compile Include="Assets\Scripts\ObstacleManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Elven Weapons\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
