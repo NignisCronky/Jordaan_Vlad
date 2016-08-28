@@ -26,6 +26,6 @@ public class EnemyScript : MonoBehaviour {
     void FireArrow()
     {
         //GameObject temparrow = Instantiate(arrow, gameObject.transform.position, arrow.transform.rotation) as GameObject;
-        Instantiate(arrow, gameObject.transform.position, arrow.transform.rotation);
+        Instantiate(arrow, new Vector3(gameObject.transform.position.x, arrow.transform.position.y, gameObject.transform.position.z - .5f), arrow.transform.rotation);
     }
 }
