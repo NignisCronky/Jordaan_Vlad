@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Collider))]
 public class Arrowss : MonoBehaviour {
     bool Piercing;
     float ShotDistance;
-    float ShotSpeed;
+    public float ShotSpeed;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    public Rigidbody bod;
+    public float speed;
+
+    // Use this for initialization
+    void Start () {
+        if(bod == null)
+        bod = gameObject.GetComponent<Rigidbody>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+
+        bod.velocity = gameObject.transform.up * ShotSpeed;
+    }
 }
