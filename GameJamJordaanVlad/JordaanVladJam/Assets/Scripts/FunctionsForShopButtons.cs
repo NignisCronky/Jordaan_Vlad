@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FunctionsForShopButtons : MonoBehaviour {
 
     public GameObject Goldtext;
-    int gold;
+   public int gold;
 	// Use this for initialization
 	void Start () {
         gold = PlayerPrefs.GetInt("Coinss");
@@ -97,7 +97,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
         Goldtext.GetComponent<Text>().text = "gold: "+gold;
 	}
 
-    void Trytobuy(int kek)
+   public void Trytobuy(int kek)
     {
 
         switch (kek)
@@ -248,7 +248,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
     }
 
 
-    void onEnddothis()
+   public void onEnddothis()
     {
         PlayerPrefs.SetInt("Coinss", gold);
         
@@ -267,7 +267,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
     /// switc 3: horse
     /// </summary>
     /// <param name="switc"></param>
-    void Setitot1(int switc)
+   public void Setitot1(int switc)
     {
         switch (switc)
         {
@@ -300,7 +300,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
         }
     }
 
-    void Setitot2(int switc)
+   public void Setitot2(int switc)
     {
         switch (switc)
         {
@@ -333,7 +333,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
         }
     }
 
-    void Setitot3(int switc)
+    public void Setitot3(int switc)
     {
         switch (switc)
         {
@@ -365,7 +365,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
         }
     }
 
-    void Setitot4(int switc)
+    public void Setitot4(int switc)
     {
         switch (switc)
         {
@@ -396,7 +396,7 @@ public class FunctionsForShopButtons : MonoBehaviour {
                 break;
         }
     }
-    void Setitot5(int switc)
+    public void Setitot5(int switc)
     {
         switch (switc)
         {
