@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     Riderss Rider;
     Horsess Horse;
     Chariotss Chariot;
-    LanesSystem Map;
+    LaneSystem Map;
 
     Rigidbody Unit;
 
@@ -93,12 +93,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void ChangeLaneLeft()
+    public void ChangeToLane()
     {
-        if (Map.GetLaneLocation())
+        //TODO: Fix
+        if (Map.GetLaneLocation(CurLane) > transform.position.x)
         {
-            Unit.velocity = new Vector3(Unit);
-    }
+            Unit.velocity = new Vector3(Unit.velocity.x + Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+        }
         else
         {
 

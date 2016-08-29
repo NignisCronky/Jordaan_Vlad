@@ -63,11 +63,11 @@ public class Riderss : MonoBehaviour {
 
         if (mCurInput == MoveInputs.Left)
         {
-            Player.ChangeLaneLeft();
+            Player.ChangeToLane();
         }
         if (mCurInput == MoveInputs.Right)
         {
-            Player.ChangeLaneRight();
+            Player.ChangeToLane();
         }
     }
 
