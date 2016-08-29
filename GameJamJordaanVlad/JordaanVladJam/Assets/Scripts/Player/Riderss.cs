@@ -16,7 +16,7 @@ public class Riderss : MonoBehaviour {
     {
         Default = 0,
         WildRider,
-
+        ZooLander
     }
     public RiderType mRiderType;
 
@@ -25,7 +25,8 @@ public class Riderss : MonoBehaviour {
     {
         None = 0,
         Left,
-        Right
+        Right,
+        Centering
     }
     MoveInputs mCurInput = 0;
     MoveInputs mBufferedInput = 0;
@@ -37,6 +38,11 @@ public class Riderss : MonoBehaviour {
 
     public void CheckForInput()
     {
+        if (mCurInput == MoveInputs.Centering)
+        {
+            return;
+        }
+
         //Use Buffered
         if (mCurInput == MoveInputs.None && mBufferedInput != MoveInputs.None)
         {
@@ -63,11 +69,33 @@ public class Riderss : MonoBehaviour {
 
         if (mCurInput == MoveInputs.Left)
         {
-            Player.ChangeToLane();
+            if(mRiderType == RiderType.WildRider)
+            {
+                Player.ChangeToLane(Player.CurLane - 1%(Player.MaxLaneAvailable-Player.MinLaneAvailable));
+            }
+            else if (mRiderType != RiderType.ZooLander)
+            {
+            Player.ChangeToLane(Player.CurLane-1);
+            }
+            else
+            {
+                mCurInput = MoveInputs.None;
+            }
         }
-        if (mCurInput == MoveInputs.Right)
+        else if (mCurInput == MoveInputs.Right)
         {
-            Player.ChangeToLane();
+            if (mRiderType == RiderType.WildRider)
+            {
+                Player.ChangeToLane(Player.CurLane - 2 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
+            }
+            else if(mRiderType == RiderType.ZooLander)
+            {
+                Player.ChangeToLane(Player.CurLane - 1 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
+            }
+            else 
+            {
+                Player.ChangeToLane(Player.CurLane - 1);
+            }
         }
     }
 

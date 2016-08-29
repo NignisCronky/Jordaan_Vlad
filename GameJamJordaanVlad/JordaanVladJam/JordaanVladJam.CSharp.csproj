@@ -74,7 +74,6 @@
     <Compile Include="Assets\Scripts\Player\Arrowss.cs" />
     <Compile Include="Assets\Scripts\Player\Chariotss.cs" />
     <Compile Include="Assets\Scripts\Player\Horsess.cs" />
-    <Compile Include="Assets\Scripts\Player\LaneSystem.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Player\Riderss.cs" />
   </ItemGroup>

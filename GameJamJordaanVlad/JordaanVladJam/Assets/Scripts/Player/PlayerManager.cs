@@ -7,7 +7,6 @@ public class PlayerManager : MonoBehaviour
 {
     public float mCurrentSpeed;
     public int coins;
-    public int CurLane;
     bool IsRoundOver = false;
 
     public GameObject[] Riders;
@@ -22,7 +21,6 @@ public class PlayerManager : MonoBehaviour
     Riderss Rider;
     Horsess Horse;
     Chariotss Chariot;
-    LaneSystem Map;
 
     Rigidbody Unit;
 
@@ -93,10 +91,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void ChangeToLane()
+    public void ChangeToLane(int Lane)
     {
         //TODO: Fix
-        if (Map.GetLaneLocation(CurLane) > transform.position.x)
+        if (GetLaneLocation(Lane) > transform.position.x)
         {
             Unit.velocity = new Vector3(Unit.velocity.x + Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
         }
@@ -129,5 +127,27 @@ public class PlayerManager : MonoBehaviour
     {
         Unit.velocity = Vector3.zero;
         IsRoundOver = true;
+    }
+
+    public int MaxLaneAvailable = 4;
+    public int MinLaneAvailable = 0;
+    public int CurLane;
+    public float[] LaneLocations;
+
+    public float GetLaneLocation(int lane)
+    {
+
+        float xLocation;
+        xLocation = LaneLocations[lane];
+        return xLocation;
+    }
+
+    public void LoseLanes()
+    {
+        if (MaxLaneAvailable != MinLaneAvailable)
+        {
+            MinLaneAvailable++;
+            MaxLaneAvailable--;
+        }
     }
 }
