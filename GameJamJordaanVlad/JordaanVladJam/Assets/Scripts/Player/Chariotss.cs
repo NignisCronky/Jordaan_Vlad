@@ -21,7 +21,9 @@ public class Chariotss : MonoBehaviour {
     {
         Default = 0,
         TheHeavy,
-        WallBanger
+        WallBanger,
+        Slick,
+        Momentus
     }
     public ChariotType mChariotType;
 }
