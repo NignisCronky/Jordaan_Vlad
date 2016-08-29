@@ -42,6 +42,28 @@ public class PlayerManager : MonoBehaviour
         {
             Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + (Horse.mAcceleration));
         }
+
+        if (ChangingLanes)
+        {
+            if (LaneLocations[TargetLane] +0.001f > Unit.position.x && TargetLane <= CurLane)
+            {
+                Unit.velocity = new Vector3(0, Unit.velocity.y, Unit.velocity.z);
+                Unit.position = new Vector3(LaneLocations[TargetLane], Unit.position.y, Unit.position.z);
+                CurLane = TargetLane;
+                ChangingLanes = false;
+            }
+            if (LaneLocations[TargetLane] + 0.001f < Unit.position.x && TargetLane > CurLane)
+            {
+                Unit.velocity = new Vector3(0, Unit.velocity.y, Unit.velocity.z);
+                Unit.position = new Vector3(LaneLocations[TargetLane], Unit.position.y, Unit.position.z);
+                CurLane = TargetLane;
+                ChangingLanes = false;
+            }
+            if (!ChangingLanes)
+            {
+                Rider.LaneChangeComplete();
+            }
+        }
     }
 
     void AssignOnStart()
@@ -70,7 +92,7 @@ public class PlayerManager : MonoBehaviour
 
         Rider = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Riderss>();
         Chariot = ((GameObject)Instantiate(ChariotPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Chariotss>();
-        Horse = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
+        Horse = ((GameObject)Instantiate(HorsePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
 
         Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
         Rider.SetPlayer(this);
@@ -93,14 +115,19 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeToLane(int Lane)
     {
-        //TODO: Fix
-        if (GetLaneLocation(Lane) > transform.position.x)
+        if (GetLaneLocation(Lane) == transform.position.x)
+        {
+            return;
+        }
+        else if (GetLaneLocation(Lane) > transform.position.x)
         {
             Unit.velocity = new Vector3(Unit.velocity.x + Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+            ChangingLanes = true;
         }
         else
         {
-
+            Unit.velocity = new Vector3(Unit.velocity.x - Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+            ChangingLanes = true;
         }
     }
 
@@ -131,13 +158,23 @@ public class PlayerManager : MonoBehaviour
 
     public int MaxLaneAvailable = 4;
     public int MinLaneAvailable = 0;
-    public int CurLane;
+    public int CurLane = 3;
+    int TargetLane;
+    public bool ChangingLanes;
     public float[] LaneLocations;
 
     public float GetLaneLocation(int lane)
     {
-
+        TargetLane = lane;
         float xLocation;
+        if (lane < MinLaneAvailable)
+        {
+            lane = MinLaneAvailable;
+        }
+        else if(lane> MaxLaneAvailable)
+        {
+            lane = MaxLaneAvailable;
+        }
         xLocation = LaneLocations[lane];
         return xLocation;
     }

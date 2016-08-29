@@ -47,6 +47,7 @@ public class Riderss : MonoBehaviour {
         if (mCurInput == MoveInputs.None && mBufferedInput != MoveInputs.None)
         {
             mCurInput = mBufferedInput;
+            mBufferedInput = MoveInputs.None;
         }
 
         //Set Current Or Buffer
@@ -66,37 +67,45 @@ public class Riderss : MonoBehaviour {
         {
             mBufferedInput = MoveInputs.Right;
         }
+        if (!Player.ChangingLanes)
+        {
+            if (mCurInput == MoveInputs.Left)
+            {
+                if (mRiderType == RiderType.WildRider)
+                {
+                    Player.ChangeToLane(Player.CurLane - 2 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
+                }
+                else if(mRiderType == RiderType.ZooLander)
+                {
+                    mCurInput = MoveInputs.None;
+                }
+                else
+                {
+                    Player.ChangeToLane(Player.CurLane - 1);
+                }
 
-        if (mCurInput == MoveInputs.Left)
-        {
-            if(mRiderType == RiderType.WildRider)
-            {
-                Player.ChangeToLane(Player.CurLane - 1%(Player.MaxLaneAvailable-Player.MinLaneAvailable));
             }
-            else if (mRiderType != RiderType.ZooLander)
+            else if (mCurInput == MoveInputs.Right)
             {
-            Player.ChangeToLane(Player.CurLane-1);
-            }
-            else
-            {
-                mCurInput = MoveInputs.None;
-            }
+                if (mRiderType == RiderType.WildRider)
+                {
+                    Player.ChangeToLane(Player.CurLane + 2 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
+                }
+                else if (mRiderType == RiderType.ZooLander)
+                {
+                    Player.ChangeToLane(Player.CurLane + 1 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
+                }
+                else
+                {
+                    Player.ChangeToLane(Player.CurLane + 1);
+                }
+            } 
         }
-        else if (mCurInput == MoveInputs.Right)
-        {
-            if (mRiderType == RiderType.WildRider)
-            {
-                Player.ChangeToLane(Player.CurLane - 2 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
-            }
-            else if(mRiderType == RiderType.ZooLander)
-            {
-                Player.ChangeToLane(Player.CurLane - 1 % (Player.MaxLaneAvailable - Player.MinLaneAvailable));
-            }
-            else 
-            {
-                Player.ChangeToLane(Player.CurLane - 1);
-            }
-        }
+    }
+
+    public void LaneChangeComplete()
+    {
+        mCurInput = MoveInputs.None;
     }
 
     public void LoseAnimation()
