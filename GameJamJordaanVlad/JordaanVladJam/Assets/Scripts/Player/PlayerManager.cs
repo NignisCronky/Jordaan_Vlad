@@ -2,20 +2,17 @@
 using System.Collections;
 
 
-
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerManager : MonoBehaviour
 {
-
     public float mCurrentSpeed;
-    public int mHealthMax;
-    public int mHealthCurrent;
     public int coins;
     public int CurLane;
     bool IsRoundOver = false;
 
-    public Riderss[] Riders;
-    public Chariotss[] Chariots;
-    public Horsess[] Horses;
+    public GameObject[] Riders;
+    public GameObject[] Chariots;
+    public GameObject[] Horses;
     public GameObject[] Arrows;
 
     GameObject RiderPrefab;
@@ -25,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     Riderss Rider;
     Horsess Horse;
     Chariotss Chariot;
-    ObstacleManager Map;
+    LaneSystem Map;
 
     Rigidbody Unit;
 
@@ -68,10 +65,19 @@ public class PlayerManager : MonoBehaviour
             PlayerPrefs.SetInt("HorseType", 0);
         }
 
-        Rider = Riders[PlayerPrefs.GetInt("RiderType")];
+        //Set the Prefabs
+        RiderPrefab = Riders[PlayerPrefs.GetInt("RiderType")];
+        HorsePrefab = Horses[PlayerPrefs.GetInt("HorseType")];
+        ChariotPrefab = Chariots[PlayerPrefs.GetInt("ChariotType")];
+
+        Rider = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Riderss>();
+        Chariot = ((GameObject)Instantiate(ChariotPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Chariotss>();
+        Horse = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
+
         Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
-        Horse = Horses[PlayerPrefs.GetInt("HorseType")];
-        Chariot = Chariots[PlayerPrefs.GetInt("ChariotType")];
+        Rider.SetPlayer(this);
+        Horse.SetPlayer(this);
+        Chariot.SetPlayer(this);
     }
 
     public void Crash()
@@ -87,9 +93,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    void ChangeLaneLeft(float time)
+    public void ChangeToLane()
     {
+        //TODO: Fix
+        if (Map.GetLaneLocation(CurLane) > transform.position.x)
+        {
+            Unit.velocity = new Vector3(Unit.velocity.x + Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+        }
+        else
+        {
 
+        }
     }
 
     public void OnLossDoThis()
@@ -97,6 +111,8 @@ public class PlayerManager : MonoBehaviour
         int temp = PlayerPrefs.GetInt("Coinss");
         temp += coins;
         PlayerPrefs.SetInt("Coinss", temp);
+        Rider.LoseAnimation();
+        Halt();
     }
 
     public bool CanItBreakWall(float BreakingPoint)
@@ -113,6 +129,5 @@ public class PlayerManager : MonoBehaviour
     {
         Unit.velocity = Vector3.zero;
         IsRoundOver = true;
-        
     }
 }

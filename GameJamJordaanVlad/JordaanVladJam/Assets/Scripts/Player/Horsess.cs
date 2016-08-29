@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Animator))]
 public class Horsess : MonoBehaviour
 {
     PlayerManager Player;
@@ -32,7 +33,7 @@ public class Horsess : MonoBehaviour
     {
         if (mCurHorses == 0)
         {
-            transform.parent.GetComponent<PlayerManager>().OnLossDoThis();
+            Player.OnLossDoThis();
         }
         else if (mHorseType != HorseType.KronenHorse)
         {

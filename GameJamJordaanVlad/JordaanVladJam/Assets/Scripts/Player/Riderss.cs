@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Animator))]
 public class Riderss : MonoBehaviour {
     PlayerManager Player;
 
-    public float mLaneChangeTime;
+    public float mLaneChangeSpeed;
     public float ArrowReloadSpeed;
     public GameObject mArrow;
-    public int LanesToChange;
-    public bool LaneWrap;
 
-    Animator Anim;
+    Animator mAnim;
 
     public enum RiderType
     {
@@ -21,33 +21,64 @@ public class Riderss : MonoBehaviour {
     public RiderType mRiderType;
 
 
-    enum Inputs
+    enum MoveInputs
     {
         None = 0,
         Left,
         Right
     }
-    Inputs mCurInput = 0;
-    Inputs mBufferedInput = 0;
+    MoveInputs mCurInput = 0;
+    MoveInputs mBufferedInput = 0;
 
     void Start()
     {
-        Anim = GetComponent<Animator>();
+        mAnim = GetComponent<Animator>();
     }
 
     public void CheckForInput()
     {
+        //Use Buffered
+        if (mCurInput == MoveInputs.None && mBufferedInput != MoveInputs.None)
+        {
+            mCurInput = mBufferedInput;
+        }
 
+        //Set Current Or Buffer
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && mCurInput==MoveInputs.None)
+        {
+            mCurInput = MoveInputs.Left;
+        }
+        else if(Input.GetKeyDown(KeyCode.RightArrow) && mCurInput == MoveInputs.None)
+        {
+            mCurInput = MoveInputs.Right;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            mBufferedInput = MoveInputs.Left;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            mBufferedInput = MoveInputs.Right;
+        }
+
+        if (mCurInput == MoveInputs.Left)
+        {
+            Player.ChangeToLane();
+        }
+        if (mCurInput == MoveInputs.Right)
+        {
+            Player.ChangeToLane();
+        }
     }
 
     public void LoseAnimation()
     {
-        Anim.SetBool("Lose", true);
+        mAnim.SetBool("Lose", true);
     }
 
     public void RoundOver()
     {
-
+        SceneManager.LoadScene("testbench");
     }
 
     public void SetPlayer(PlayerManager _Player)
