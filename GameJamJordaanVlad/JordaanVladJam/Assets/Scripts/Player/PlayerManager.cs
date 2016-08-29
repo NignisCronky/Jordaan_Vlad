@@ -43,9 +43,25 @@ public class PlayerManager : MonoBehaviour
             Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + (Horse.mAcceleration));
         }
 
+        if (Unit.velocity.z > Horse.mMaxSpeed)
+        {
+            if (OverSpeed)
+            {
+                Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z - (Horse.OverSpeedLoss));
+            }
+            else
+            {
+                Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Horse.mMaxSpeed);
+            }
+            if (Unit.velocity.z < Horse.mMaxSpeed)
+            {
+                OverSpeed = false;
+            }
+        }
+
         if (ChangingLanes)
         {
-            if (LaneLocations[TargetLane] +0.001f > Unit.position.x && TargetLane <= CurLane)
+            if (LaneLocations[TargetLane] + 0.001f > Unit.position.x && TargetLane <= CurLane)
             {
                 Unit.velocity = new Vector3(0, Unit.velocity.y, Unit.velocity.z);
                 Unit.position = new Vector3(LaneLocations[TargetLane], Unit.position.y, Unit.position.z);
@@ -98,6 +114,16 @@ public class PlayerManager : MonoBehaviour
         Rider.SetPlayer(this);
         Horse.SetPlayer(this);
         Chariot.SetPlayer(this);
+    }
+
+    bool OverSpeed = false;
+    public void Accelerate()
+    {
+        Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + Horse.mAcceleration * 3);
+        if (Unit.velocity.z > Horse.mMaxSpeed)
+        {
+            OverSpeed = true;
+        }
     }
 
     public void Crash()
@@ -171,7 +197,7 @@ public class PlayerManager : MonoBehaviour
         {
             lane = MinLaneAvailable;
         }
-        else if(lane> MaxLaneAvailable)
+        else if (lane > MaxLaneAvailable)
         {
             lane = MaxLaneAvailable;
         }
