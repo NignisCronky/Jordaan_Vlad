@@ -14,6 +14,13 @@ public class EnemyScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (range == 0)
+            range = 20;
+        if (cooldown == 0)
+            cooldown = 4;
+
+
         if (firenext <= Time.time)
         {
             if (Vector3.Distance(gameObject.transform.position, player.transform.position) < range)

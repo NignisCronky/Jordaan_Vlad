@@ -19,7 +19,7 @@ public class Arrowss : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         bod.velocity = gameObject.transform.up * ShotSpeed;
-        if (Rider.transform.position.z < transform.position.z - ShotDistance)
+        if (Rider.transform.position.x < transform.position.x - ShotDistance)
         {
             Destroy(gameObject);
         }
