@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class Arrowss : MonoBehaviour {
-    bool Piercing;
-    float ShotDistance;
+    GameObject Rider;
+    public bool Piercing;
+    public float ShotDistance;
     public float ShotSpeed;
 
     public Rigidbody bod;
@@ -17,7 +18,15 @@ public class Arrowss : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         bod.velocity = gameObject.transform.up * ShotSpeed;
+        if (Rider.transform.position.x < transform.position.x - ShotDistance)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void SetRider(GameObject rider)
+    {
+        Rider = rider;
     }
 }

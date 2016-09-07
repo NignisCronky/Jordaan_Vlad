@@ -10,6 +10,7 @@ public class Horsess : MonoBehaviour
     public float mMaxSpeed;
     public float mMaxSpeedLostInCrash;
     public float mAccelerationLostInCrash;
+    public float OverSpeedLoss;
 
     public int mInitialHorses;
     public int mCurHorses;

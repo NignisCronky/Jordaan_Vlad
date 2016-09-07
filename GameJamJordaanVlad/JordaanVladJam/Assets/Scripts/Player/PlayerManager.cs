@@ -7,7 +7,6 @@ public class PlayerManager : MonoBehaviour
 {
     public float mCurrentSpeed;
     public int coins;
-    public int CurLane;
     bool IsRoundOver = false;
 
     public GameObject[] Riders;
@@ -22,7 +21,6 @@ public class PlayerManager : MonoBehaviour
     Riderss Rider;
     Horsess Horse;
     Chariotss Chariot;
-    LaneSystem Map;
 
     Rigidbody Unit;
 
@@ -43,6 +41,44 @@ public class PlayerManager : MonoBehaviour
         if (Unit.velocity.z < Horse.mMaxSpeed && !IsRoundOver)
         {
             Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + (Horse.mAcceleration));
+        }
+
+        if (Unit.velocity.z > Horse.mMaxSpeed)
+        {
+            if (OverSpeed)
+            {
+                Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z - (Horse.OverSpeedLoss));
+            }
+            else
+            {
+                Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Horse.mMaxSpeed);
+            }
+            if (Unit.velocity.z < Horse.mMaxSpeed)
+            {
+                OverSpeed = false;
+            }
+        }
+
+        if (ChangingLanes)
+        {
+            if (LaneLocations[TargetLane] + 0.001f > Unit.position.x && TargetLane <= CurLane)
+            {
+                Unit.velocity = new Vector3(0, Unit.velocity.y, Unit.velocity.z);
+                Unit.position = new Vector3(LaneLocations[TargetLane], Unit.position.y, Unit.position.z);
+                CurLane = TargetLane;
+                ChangingLanes = false;
+            }
+            if (LaneLocations[TargetLane] + 0.001f < Unit.position.x && TargetLane > CurLane)
+            {
+                Unit.velocity = new Vector3(0, Unit.velocity.y, Unit.velocity.z);
+                Unit.position = new Vector3(LaneLocations[TargetLane], Unit.position.y, Unit.position.z);
+                CurLane = TargetLane;
+                ChangingLanes = false;
+            }
+            if (!ChangingLanes)
+            {
+                Rider.LaneChangeComplete();
+            }
         }
     }
 
@@ -72,12 +108,22 @@ public class PlayerManager : MonoBehaviour
 
         Rider = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Riderss>();
         Chariot = ((GameObject)Instantiate(ChariotPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Chariotss>();
-        Horse = ((GameObject)Instantiate(RiderPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
+        Horse = ((GameObject)Instantiate(HorsePrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation, transform)).GetComponent<Horsess>();
 
         Rider.mArrow = Arrows[PlayerPrefs.GetInt("ArrowType")];
         Rider.SetPlayer(this);
         Horse.SetPlayer(this);
         Chariot.SetPlayer(this);
+    }
+
+    bool OverSpeed = false;
+    public void Accelerate()
+    {
+        Unit.velocity = new Vector3(Unit.velocity.x, Unit.velocity.y, Unit.velocity.z + Horse.mAcceleration * 3);
+        if (Unit.velocity.z > Horse.mMaxSpeed)
+        {
+            OverSpeed = true;
+        }
     }
 
     public void Crash()
@@ -93,16 +139,21 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void ChangeToLane()
+    public void ChangeToLane(int Lane)
     {
-        //TODO: Fix
-        if (Map.GetLaneLocation(CurLane) > transform.position.x)
+        if (GetLaneLocation(Lane) == transform.position.x)
+        {
+            return;
+        }
+        else if (GetLaneLocation(Lane) > transform.position.x)
         {
             Unit.velocity = new Vector3(Unit.velocity.x + Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+            ChangingLanes = true;
         }
         else
         {
-
+            Unit.velocity = new Vector3(Unit.velocity.x - Rider.mLaneChangeSpeed, Unit.velocity.y, Unit.velocity.z);
+            ChangingLanes = true;
         }
     }
 
@@ -129,5 +180,37 @@ public class PlayerManager : MonoBehaviour
     {
         Unit.velocity = Vector3.zero;
         IsRoundOver = true;
+    }
+
+    public int MaxLaneAvailable = 4;
+    public int MinLaneAvailable = 0;
+    public int CurLane = 3;
+    int TargetLane;
+    public bool ChangingLanes;
+    public float[] LaneLocations;
+
+    public float GetLaneLocation(int lane)
+    {
+        TargetLane = lane;
+        float xLocation;
+        if (lane < MinLaneAvailable)
+        {
+            lane = MinLaneAvailable;
+        }
+        else if (lane > MaxLaneAvailable)
+        {
+            lane = MaxLaneAvailable;
+        }
+        xLocation = LaneLocations[lane];
+        return xLocation;
+    }
+
+    public void LoseLanes()
+    {
+        if (MaxLaneAvailable != MinLaneAvailable)
+        {
+            MinLaneAvailable++;
+            MaxLaneAvailable--;
+        }
     }
 }

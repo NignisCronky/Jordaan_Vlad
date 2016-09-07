@@ -61,15 +61,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Arrow_Controller.cs" />
@@ -83,7 +74,6 @@
     <Compile Include="Assets\Scripts\Player\Arrowss.cs" />
     <Compile Include="Assets\Scripts\Player\Chariotss.cs" />
     <Compile Include="Assets\Scripts\Player\Horsess.cs" />
-    <Compile Include="Assets\Scripts\Player\LaneSystem.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Player\Riderss.cs" />
     <Compile Include="Assets\Scripts\TransitionScript.cs" />
